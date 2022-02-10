@@ -1,0 +1,30 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${EMAIL_SENDER_GIT_CLIENTID}
+            client-secret: ${EMAIL_SENDER_GIT_CLIENT_SECRET}
+  data:
+    cassandra:
+      keyspace-name: main
+      username: ${EMAIL_SENDER_CLIENT_ID}
+      password: ${EMAIL_SENDER_CLIENT_SECRET}
+      schema-action: recreate_drop_unused
+      request:
+        timeout: 10s
+      connection:
+        connect-timeout: 10s
+        init-query-timeout: 10s
+
+astra:
+  db:
+    id: 29e09c77-b755-4b9b-8747-269563e588cd-1
+    region: us-east1
+    keyspace: main
+    application:
+      token: ${EMAIL_SENDER_DB_TOKEN}
+  datastax:
+    astra:
+      secure-connect-budle: secure-budle.zip
