@@ -25,9 +25,9 @@ public class FolderByUserService {
 
     public List<FolderByUser> createDefaultFolders(final String userId){
         return folderByUserRepository.saveAll(List.of(
-                FolderByUser.builder().userId(userId).labelName( "inbox").labelColor("white").folderType(DEFAULT_FOLDER).build(),
-                FolderByUser.builder().userId(userId).labelName( "sent").labelColor("white").folderType(DEFAULT_FOLDER).build(),
-                FolderByUser.builder().userId(userId).labelName( "spam").labelColor("white").folderType(DEFAULT_FOLDER).build()
+                FolderByUser.builder().userId(userId.toLowerCase()).labelName( "inbox").labelColor("white").folderType(DEFAULT_FOLDER).build(),
+                FolderByUser.builder().userId(userId.toLowerCase()).labelName( "sent").labelColor("white").folderType(DEFAULT_FOLDER).build(),
+                FolderByUser.builder().userId(userId.toLowerCase()).labelName( "spam").labelColor("white").folderType(DEFAULT_FOLDER).build()
         ));
     }
 
@@ -39,11 +39,11 @@ public class FolderByUserService {
             User user = userService.findByEmail(principal.getName());
             userId = user.getFirstName();
         }
-        return userId;
+        return userId.substring(0,1).toUpperCase() + userId.substring(1);
     }
 
-    public List<FolderByUser> findAllFolderCreatedByUsers(String userName) {
-        return folderByUserRepository.findAllByUserId(userName).stream()
+    public List<FolderByUser> findAllFolderCreatedByUsers(final String userName) {
+        return folderByUserRepository.findAllByUserId(userName.toLowerCase()).stream()
                 .filter(user -> user.getFolderType().name().equals(USER_CREATED.name()))
                 .collect(Collectors.toList());
     }

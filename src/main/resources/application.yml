@@ -13,10 +13,10 @@ spring:
       password: ${EMAIL_SENDER_CLIENT_SECRET}
       schema-action: recreate_drop_unused
       request:
-        timeout: 20s
+        timeout: 60s
       connection:
-        connect-timeout: 20s
-        init-query-timeout: 20s
+        connect-timeout: 60s
+        init-query-timeout: 60s
 
 datastax:
   astra:

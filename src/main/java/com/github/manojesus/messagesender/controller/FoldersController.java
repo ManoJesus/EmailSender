@@ -1,7 +1,6 @@
 package com.github.manojesus.messagesender.controller;
 
 import com.github.manojesus.messagesender.model.FolderByUser;
-import com.github.manojesus.messagesender.repository.FolderByUserRepository;
 import com.github.manojesus.messagesender.service.FolderByUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,16 +17,25 @@ import java.util.List;
 @AllArgsConstructor
 public class FoldersController {
 
+    private static final String DEFAULT_FOLDER = "inbox";
+
     private final FolderByUserService folderByUserService;
 
     @GetMapping("/inbox")
     public String homePage(@AuthenticationPrincipal OAuth2User oauthPrincipal, Principal principal, Model model){
         String userName = folderByUserService.getUserId(oauthPrincipal, principal);
 
+        //---------- Fetching all folder by username
         List<FolderByUser> defaultFolders = folderByUserService.createDefaultFolders(userName);
-        model.addAttribute("defaultFolders", defaultFolders);
+        List<FolderByUser> userFolders = folderByUserService.findAllFolderCreatedByUsers(userName);
+
         model.addAttribute("userName", userName);
-        model.addAttribute("folders", folderByUserService.findAllFolderCreatedByUsers(userName));
+        model.addAttribute("defaultFolders", defaultFolders);
+        model.addAttribute("folders", userFolders);
+
+        //---------- Fetching all emails from a folder
+
+
         return "inbox";
     }
 }
