@@ -21,7 +21,20 @@
 
 	  <main>
 	    <!-- Main content -->
-		<h6>Email List</h6>
+		  <div class="card" th:if="${emailList}">
+			  <div  class="card-header"><h6>Email List</h6></div>
+			  <div class="card-body">
+				  <div class="list-group">
+					  <a th:each="email: ${emailList}" href="#" class="list-group-item list-group-item-action">
+						  <div class="d-flex w-100 justify-content-between">
+							  <h5 th:text="${email.getSubject()}" class="mb-1">List of emails in the folder</h5>
+							  <small th:text="${email.getEmailSentTime()}">email ago time</small>
+						  </div>
+						  <p th:text="'To:' + ${email.getTo()}" class="mb-1">displays the usernames which this message was sent</p>
+					  </a>
+				  </div>
+			  </div>
+		  </div>
 
 	  </main>
 

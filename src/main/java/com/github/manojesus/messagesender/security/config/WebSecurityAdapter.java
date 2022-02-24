@@ -34,14 +34,14 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .permitAll()
                 .failureUrl("/login-failure")
-                .defaultSuccessUrl("/inbox", true)
+                .defaultSuccessUrl("/home", true)
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login")
                 .and()
                 .oauth2Login()
                 .loginPage("/login")
-                .defaultSuccessUrl("/inbox", true);
+                .defaultSuccessUrl("/home", true);
     }
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {

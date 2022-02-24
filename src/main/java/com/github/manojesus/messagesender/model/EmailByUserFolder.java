@@ -1,8 +1,8 @@
 package com.github.manojesus.messagesender.model;
 
 import com.github.manojesus.messagesender.model.primarykey.EmailByUserFolderPrimaryKey;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
@@ -13,8 +13,8 @@ import static org.springframework.data.cassandra.core.mapping.CassandraType.Name
 import static org.springframework.data.cassandra.core.mapping.CassandraType.Name.TEXT;
 
 @Table("email_by_user_folder")
-@Builder
-@Data
+@Getter
+@Setter
 public class EmailByUserFolder {
     @PrimaryKey
     private EmailByUserFolderPrimaryKey key;
@@ -24,4 +24,6 @@ public class EmailByUserFolder {
     private String subject;
     @CassandraType(type = BOOLEAN)
     private boolean isRead;
+    @Transient
+    private String emailSentTime;
 }
