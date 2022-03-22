@@ -1,4 +1,4 @@
-package com.github.manojesus.messagesender.controller.util;
+package com.github.manojesus.messagesender.util;
 
 import com.github.manojesus.messagesender.model.FolderByUser;
 import com.github.manojesus.messagesender.repository.MessageRepository;

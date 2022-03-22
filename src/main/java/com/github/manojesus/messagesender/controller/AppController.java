@@ -1,11 +1,11 @@
 package com.github.manojesus.messagesender.controller;
 
-import com.github.manojesus.messagesender.controller.util.LoadDefaultModel;
+import com.github.manojesus.messagesender.util.LoadDefaultModel;
 import com.github.manojesus.messagesender.model.EmailByUserFolder;
-import com.github.manojesus.messagesender.model.FolderByUser;
 import com.github.manojesus.messagesender.service.EmailByUserFolderService;
 import com.github.manojesus.messagesender.service.FolderByUserService;
 import com.github.manojesus.messagesender.service.UserService;
+import com.github.manojesus.messagesender.util.ViewNames;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -19,10 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.security.Principal;
 import java.util.List;
 
+import static com.github.manojesus.messagesender.util.UrlNames.HOME_URL;
+import static com.github.manojesus.messagesender.util.ViewNames.*;
+
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/home")
+@RequestMapping(HOME_URL)
 public class AppController {
 
     private static final String DEFAULT_FOLDER = "inbox";
@@ -34,22 +37,23 @@ public class AppController {
     @GetMapping()
     public String homePage(@AuthenticationPrincipal OAuth2User oauthPrincipal, Principal principal, Model model){
         loadEmailsByUserAndLabel(DEFAULT_FOLDER,oauthPrincipal,principal,model);
-        return "inbox";
+        return HOME.getName();
     }
 
     @GetMapping("/{labelName}")
     public String emailsInLabel(@PathVariable String labelName,@AuthenticationPrincipal OAuth2User oauthPrincipal, Principal principal, Model model){
         if(labelName.equals("inbox")){
-            return "redirect:/home";
+            return "redirect:"+HOME_URL;
         }
         loadEmailsByUserAndLabel(labelName,oauthPrincipal,principal,model);
-        return "inbox";
+        return HOME.getName();
     }
     @ModelAttribute
     void loadFoldersTemplate(Model model,@AuthenticationPrincipal OAuth2User oauthPrincipal, Principal principal){
         String username = userService.getUserId(oauthPrincipal,principal);
         LoadDefaultModel.loadTemplateWithEmails(username,model,folderByUserService);
     }
+
     private void loadEmailsByUserAndLabel(String labelName, OAuth2User oauthPrincipal, Principal principal, Model model) {
         String userName = userService.getUserId(oauthPrincipal, principal);
 

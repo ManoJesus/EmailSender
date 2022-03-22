@@ -32,9 +32,9 @@ public class EmailByUserFolderService {
                 }).collect(Collectors.toList());
     }
 
-    public void saveMessageInFolderList(String label, Message message){
+    public void saveMessageInFolderList(String label, Message message, String username){
         EmailByUserFolder emailToBeSavedOnList = new EmailByUserFolder();
-        final EmailByUserFolderPrimaryKey emailByUserFolderPrimaryKey = new EmailByUserFolderPrimaryKey(message.getFrom(), label, message.getMessageId());
+        EmailByUserFolderPrimaryKey emailByUserFolderPrimaryKey = new EmailByUserFolderPrimaryKey(username, label, message.getMessageId());
 
         emailToBeSavedOnList.setKey(emailByUserFolderPrimaryKey);
         emailToBeSavedOnList.setSubject(message.getSubject());

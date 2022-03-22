@@ -9,32 +9,36 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import static com.github.manojesus.messagesender.util.UrlNames.*;
+import static com.github.manojesus.messagesender.util.ViewNames.INDEX;
+import static com.github.manojesus.messagesender.util.ViewNames.SIGNUP;
+
 @Controller
 @AllArgsConstructor
 public class LoginSingUpController {
 
     private final UserService userService;
 
-    @GetMapping("/login")
+    @GetMapping(LOGIN_URL)
     public String loginPage(Model model){
         return "index";
     }
-    @GetMapping("/login-failure")
+    @GetMapping(LOGIN_FAILURE_URL)
     public String failToLogin(Model model){
         model.addAttribute("errorToLogin", true);
-        return "index";
+        return INDEX.getName();
     }
-    @GetMapping("/signup")
+    @GetMapping(SIGNUP_URL)
     public String singUpForm(Model model){
         User userToRegister =User.builder().build();
         model.addAttribute("userToRegister", userToRegister);
-        return "signup";
+        return SIGNUP.getName();
     }
-    @PostMapping("/signup")
+    @PostMapping(SIGNUP_URL)
     public String singUp(@ModelAttribute User userToRegister, Model model){
         model.addAttribute("userToRegister",userToRegister);
         userService.singUp(userToRegister);
-        return "redirect:/login";
+        return "redirect:"+LOGIN_URL;
     }
 
 }

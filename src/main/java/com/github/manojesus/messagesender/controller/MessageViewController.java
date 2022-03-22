@@ -1,8 +1,6 @@
 package com.github.manojesus.messagesender.controller;
 
-import com.github.manojesus.messagesender.controller.util.LoadDefaultModel;
-import com.github.manojesus.messagesender.model.EmailByUserFolder;
-import com.github.manojesus.messagesender.model.FolderByUser;
+import com.github.manojesus.messagesender.util.LoadDefaultModel;
 import com.github.manojesus.messagesender.model.Message;
 import com.github.manojesus.messagesender.repository.MessageRepository;
 import com.github.manojesus.messagesender.service.FolderByUserService;
@@ -18,9 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 import java.security.Principal;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.github.manojesus.messagesender.util.UrlNames.HOME_URL;
+import static com.github.manojesus.messagesender.util.UrlNames.MESSAGE_VIEW_URL;
+import static com.github.manojesus.messagesender.util.ViewNames.MESSAGE_VIEW;
 
 @Controller
 @AllArgsConstructor
@@ -30,14 +31,12 @@ public class MessageViewController {
     private final MessageRepository messageRepository;
     private final FolderByUserService folderByUserService;
 
-    @GetMapping("/home/message/{messageId}")
-    public String messageView(@AuthenticationPrincipal OAuth2User oauthPrincipal,
-                              Principal principal,
-                              Model model,
+    @GetMapping(MESSAGE_VIEW_URL)
+    public String messageView(Model model,
                               @PathVariable UUID messageId){
         Optional<Message> optionalMessage = messageRepository.findById(messageId);
         if(optionalMessage.isEmpty()){
-            return "redirect:/home";
+            return "redirect:"+HOME_URL;
         }
         Message message = optionalMessage.get();
         String listTo = String.join(", ",message.getTo());
@@ -45,7 +44,7 @@ public class MessageViewController {
         model.addAttribute("message", message);
         model.addAttribute("listTo", listTo);
 
-        return "message-view";
+        return MESSAGE_VIEW.getName();
     }
 
     @ModelAttribute

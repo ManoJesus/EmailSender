@@ -27,16 +27,16 @@
 					<form  method="post" th:action="@{/home/compose}" th:object="${messageForm}">
 						<div class="mb-3">
 							<label for="toInput" class="form-label">To: </label>
-							<input th:field="*{to}" type="text" class="form-control" id="toInput" aria-describedby="emailHelp"/>
+							<input th:field="*{to}" type="text" class="form-control" id="toInput" aria-describedby="emailHelp" required/>
 							<div id="ToHelper" class="form-text">Put all with comma separate</div>
 						</div>
 						<div class="mb-3">
 							<label for="subjectInput" class="form-label">Subject</label>
-							<input  th:field="*{subject}" type="text" class="form-control" id="subjectInput"/>
+							<input  th:field="*{subject}" type="text" class="form-control" id="subjectInput" required/>
 						</div>
 						<div class="mb-3">
 <!--							<label for="body" class="form-label"></label>-->
-							<textarea th:field="*{body}" placeholder="Write your email here..." class="form-control" id="body" rows="10"></textarea>
+							<textarea th:field="*{body}" placeholder="Write your email here..." class="form-control" id="body" rows="10" required></textarea>
 						</div>
 						<button type="submit" class="btn btn-primary">Submit</button>
 					</form>
