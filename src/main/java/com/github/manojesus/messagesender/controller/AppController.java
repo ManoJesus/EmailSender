@@ -53,12 +53,6 @@ public class AppController {
     private void loadEmailsByUserAndLabel(String labelName, OAuth2User oauthPrincipal, Principal principal, Model model) {
         String userName = userService.getUserId(oauthPrincipal, principal);
 
-//        List<FolderByUser> defaultFolders = folderByUserService.createDefaultFolders(userName);
-//        List<FolderByUser> userFolders = folderByUserService.findAllFolderCreatedByUsers(userName);
-//
-//        model.addAttribute("userName", userName);
-//        model.addAttribute("defaultFolders", defaultFolders);
-//        model.addAttribute("folders", userFolders);
         List<EmailByUserFolder> emailList = emailByUserFolderService.findAllByUserAndLabelName(userName.toLowerCase(), labelName);
         model.addAttribute("emailList", emailList);
     }

@@ -1,5 +1,6 @@
 package com.github.manojesus.messagesender.controller;
 
+import com.github.manojesus.messagesender.controller.util.LoadDefaultModel;
 import com.github.manojesus.messagesender.model.EmailByUserFolder;
 import com.github.manojesus.messagesender.model.FolderByUser;
 import com.github.manojesus.messagesender.model.Message;
@@ -12,6 +13,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
@@ -33,8 +35,6 @@ public class MessageViewController {
                               Principal principal,
                               Model model,
                               @PathVariable UUID messageId){
-        loadTemplateWithEmails(oauthPrincipal, principal, model);
-
         Optional<Message> optionalMessage = messageRepository.findById(messageId);
         if(optionalMessage.isEmpty()){
             return "redirect:/home";
@@ -48,15 +48,9 @@ public class MessageViewController {
         return "message-view";
     }
 
-    private void loadTemplateWithEmails(OAuth2User oauthPrincipal, Principal principal, Model model) {
-        String userName = userService.getUserId(oauthPrincipal, principal);
-
-        List<FolderByUser> defaultFolders = folderByUserService.createDefaultFolders(userName);
-        List<FolderByUser> userFolders = folderByUserService.findAllFolderCreatedByUsers(userName);
-
-        model.addAttribute("userName", userName);
-        model.addAttribute("defaultFolders", defaultFolders);
-        model.addAttribute("folders", userFolders);
-
+    @ModelAttribute
+    void loadFoldersTemplate(Model model,@AuthenticationPrincipal OAuth2User oauthPrincipal, Principal principal){
+        String username = userService.getUserId(oauthPrincipal,principal);
+        LoadDefaultModel.loadTemplateWithEmails(username,model,folderByUserService);
     }
 }

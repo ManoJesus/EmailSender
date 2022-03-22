@@ -1,6 +1,7 @@
 package com.github.manojesus.messagesender.controller;
 
 import com.datastax.oss.driver.api.core.uuid.Uuids;
+import com.github.manojesus.messagesender.controller.util.LoadDefaultModel;
 import com.github.manojesus.messagesender.model.FolderByUser;
 import com.github.manojesus.messagesender.model.Message;
 import com.github.manojesus.messagesender.model.MessageForm;
@@ -34,8 +35,6 @@ public class ComposeEmailController {
     public String getComposePage(@RequestParam(required = false) String to,
                                  @RequestParam(required = false) final String subject,
                                  Model model, @AuthenticationPrincipal OAuth2User auth2User, Principal principal){
-        loadTemplateWithEmails(auth2User,principal, model);
-
         String toList = "";
         if(StringUtils.hasText(to)){
             toList = Stream.of(to.split(","))
@@ -67,18 +66,9 @@ public class ComposeEmailController {
         return "redirect:/home";
     }
 
-
-
-
-
-    private void loadTemplateWithEmails(OAuth2User oauthPrincipal, Principal principal, Model model) {
-        String userName = userService.getUserId(oauthPrincipal, principal);
-
-        List<FolderByUser> defaultFolders = folderByUserService.createDefaultFolders(userName);
-        List<FolderByUser> userFolders = folderByUserService.findAllFolderCreatedByUsers(userName);
-
-        model.addAttribute("userName", userName);
-        model.addAttribute("defaultFolders", defaultFolders);
-        model.addAttribute("folders", userFolders);
+    @ModelAttribute
+    void loadFoldersTemplate(Model model,@AuthenticationPrincipal OAuth2User oauthPrincipal, Principal principal){
+        String username = userService.getUserId(oauthPrincipal,principal);
+        LoadDefaultModel.loadTemplateWithEmails(username,model,folderByUserService);
     }
 }
