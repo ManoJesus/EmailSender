@@ -31,16 +31,7 @@ public class FolderByUserService {
         ));
     }
 
-    public String getUserId(OAuth2User oauthPrincipal, Principal principal) {
-        String userId = "";
-        if(oauthPrincipal != null && StringUtils.hasText(oauthPrincipal.getAttribute("login"))) {
-            userId = Objects.requireNonNull(oauthPrincipal.getAttribute("login")).toString().toLowerCase();
-        }else{
-            User user = userService.findByEmail(principal.getName());
-            userId = user.getFirstName();
-        }
-        return userId.substring(0,1).toUpperCase() + userId.substring(1);
-    }
+
 
     public List<FolderByUser> findAllFolderCreatedByUsers(final String userName) {
         return folderByUserRepository.findAllByUserId(userName.toLowerCase()).stream()

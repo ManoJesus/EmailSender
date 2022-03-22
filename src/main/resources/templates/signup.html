@@ -23,20 +23,20 @@
                 <div class="row justify-content-center">
                   <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                    <p class="text-center h1 fw-bold mb-5 mt-4">Registre-se</p>
+                    <p class="text-center h1 fw-bold mb-5 mt-4">Signup</p>
                     <form method="post" th:action="@{/signup}" th:object="${userToRegister}">
 
                       <div class="d-flex flex-row align-items-center mb-4">
                         <div class="form-outline flex-fill mb-0">
-                          <label class="form-label" for="nome" style="margin-left: 0;">Nome</label>
-                          <input type="text" id="nome" name="nome" th:field="*{firstName}" class="form-control">
+                          <label class="form-label" for="firstName" style="margin-left: 0;">First Name</label>
+                          <input type="text" id="firstName" name="firstName" th:field="*{firstName}" class="form-control">
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 71.2px;"></div><div class="form-notch-trailing"></div></div></div>
                       </div>
 
                       <div class="d-flex flex-row align-items-center mb-4">
                         <div class="form-outline flex-fill mb-0">
-                          <label class="form-label" for="sobrenome"  style="margin-left: 0;">Sobrenome</label>
-                          <input type="text" id="sobrenome" th:field="*{lastName}" name="sobrenome" class="form-control">
+                          <label class="form-label" for="lastname"  style="margin-left: 0;">Last Name</label>
+                          <input type="text" id="lastname" th:field="*{lastName}" name="lastname" class="form-control">
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 71.2px;"></div><div class="form-notch-trailing"></div></div></div>
                       </div>
 
@@ -52,21 +52,21 @@
                       <div class="d-flex flex-row align-items-center mb-4">
                         <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                         <div class="form-outline flex-fill mb-0">
-                          <label class="form-label fw-bold" for="senha" style="margin-left: 0;">Senha</label>
-                          <input type="password" id="senha" name="senha" th:field="*{password}"  class="form-control">
+                          <label class="form-label fw-bold" for="password" style="margin-left: 0;">Password</label>
+                          <input type="password" id="password" name="password" th:field="*{password}"  class="form-control">
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 64.8px;"></div><div class="form-notch-trailing"></div></div></div>
                       </div>
                       <div id="message"></div>
                       <div class="d-flex flex-row align-items-center mb-4">
                         <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                         <div class="form-outline flex-fill mb-0">
-                          <label class="form-label" for="confirm_password" style="margin-left: 0;">Repita a senha</label>
+                          <label class="form-label" for="confirm_password" style="margin-left: 0;">Repeat your password</label>
                           <input type="password" id="confirm_password" class="form-control" onkeyup="verify()">
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 134.4px;"></div><div class="form-notch-trailing"></div></div></div>
                       </div>
 
                       <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <button type="submit" id="submit" class="btn btn-primary btn-lg" >Registrar</button>
+                        <button type="submit" id="submit" class="btn btn-primary btn-lg" >Submit</button>
                       </div>
 
                     </form>
@@ -85,7 +85,7 @@
 <script>
   function verify(){
 
-    if(document.getElementById("senha").value !== document.getElementById("confirm_password").value){
+    if(document.getElementById("password").value !== document.getElementById("confirm_password").value){
       document.getElementById("submit").disabled = true
       document.getElementById("message").innerHTML = "As senhas devem ser iguais"
       document.getElementById("message").style.color = "red"
