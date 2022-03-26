@@ -17,6 +17,7 @@ import java.security.Principal;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.github.manojesus.messagesender.util.AttributesNames.MESSAGE_FORM;
 import static com.github.manojesus.messagesender.util.UrlNames.COMPOSE_URL;
 import static com.github.manojesus.messagesender.util.UrlNames.HOME_URL;
 import static com.github.manojesus.messagesender.util.ViewNames.COMPOSE_MESSAGE;
@@ -42,7 +43,7 @@ public class ComposeEmailController {
                     .distinct()
                     .collect(Collectors.joining(", "));
         }
-        model.addAttribute("messageForm", MessageForm.builder()
+        model.addAttribute(MESSAGE_FORM, MessageForm.builder()
                                                         .to(toList)
                                                         .subject(subject).build()) ;
         return COMPOSE_MESSAGE.getName();

@@ -6,10 +6,7 @@ import com.github.manojesus.messagesender.model.FolderByUser;
 import com.github.manojesus.messagesender.model.Message;
 import com.github.manojesus.messagesender.model.User;
 import com.github.manojesus.messagesender.model.primarykey.EmailByUserFolderPrimaryKey;
-import com.github.manojesus.messagesender.repository.EmailByUserFolderRepository;
-import com.github.manojesus.messagesender.repository.FolderByUserRepository;
-import com.github.manojesus.messagesender.repository.MessageRepository;
-import com.github.manojesus.messagesender.repository.UserRepository;
+import com.github.manojesus.messagesender.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,7 +16,9 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.UUID;
 
+import static com.github.manojesus.messagesender.enums.FolderType.DEFAULT_FOLDER;
 import static com.github.manojesus.messagesender.enums.FolderType.USER_CREATED;
+import static com.github.manojesus.messagesender.util.DefaultLabelNames.*;
 
 @Configuration
 @AllArgsConstructor
@@ -32,6 +31,7 @@ public class Initialization {
     private final UserRepository userRepository;
     private final MessageRepository messageRepository;
     private final BCryptPasswordEncoder encoder;
+    private final UnreadEmailStatsRepository unreadEmailStatsRepository;
 
     @PostConstruct
     public void init(){
@@ -41,24 +41,29 @@ public class Initialization {
         createFolders();
 
         //Creating emails for a default user and default folder
-        createEmails("inbox");
-        createEmails("sent");
+        createEmails(INBOX);
+        createEmails(SENT);
     }
 
     private void createFolders() {
         folderByUserRepository.saveAll(List.of(
                 FolderByUser.builder()
                         .userId(DEFAULT_USER)
-                        .labelName("important")
+                        .labelName(IMPORTANT)
                         .labelColor("green").folderType(USER_CREATED).build(),
                 FolderByUser.builder()
                         .userId(DEFAULT_USER)
-                        .labelName("from work")
+                        .labelName("From work")
                         .labelColor("blue").folderType(USER_CREATED).build(),
                 FolderByUser.builder()
                         .userId(DEFAULT_USER)
-                        .labelName("ignore")
+                        .labelName("Ignore")
                         .labelColor("red").folderType(USER_CREATED).build()));
+
+        unreadEmailStatsRepository.incrementCounter(DEFAULT_USER,INBOX);
+        unreadEmailStatsRepository.incrementCounter(DEFAULT_USER,INBOX);
+        unreadEmailStatsRepository.incrementCounter(DEFAULT_USER,INBOX);
+        unreadEmailStatsRepository.incrementCounter(DEFAULT_USER,INBOX);
     }
 
     private void createUser() {
@@ -88,6 +93,9 @@ public class Initialization {
 
             emailToSaveInList.setKey(new EmailByUserFolderPrimaryKey(DEFAULT_USER, labelName, messageUuid));
             emailToSaveInList.setEmailSentTime("");
+            if(labelName.equals(SENT)){
+                emailToSaveInList.setRead(true);
+            }
             emailToSaveInList.setRead(false);
             emailToSaveInList.setTo(toList);
             emailToSaveInList.setSubject(subject);

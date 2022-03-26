@@ -25,7 +25,11 @@
 
                     <p class="text-center h1 fw-bold mb-5 mt-4">Signup</p>
                     <form method="post" th:action="@{/signup}" th:object="${userToRegister}">
-
+                      <input
+                              type="hidden"
+                              th:name="${_csrf.getParameterName()}"
+                              th:value="${_csrf.getToken()}"
+                      />
                       <div class="d-flex flex-row align-items-center mb-4">
                         <div class="form-outline flex-fill mb-0">
                           <label class="form-label" for="firstName" style="margin-left: 0;">First Name</label>

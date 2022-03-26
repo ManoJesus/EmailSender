@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.Objects;
@@ -31,7 +30,7 @@ public class UserService implements UserDetailsService {
         ));
     }
 
-    public User singUp(User user){
+    public User signup(User user){
         String encodedPass = encoder.encode(user.getPassword());
         user.setPassword(encodedPass);
         return userRepository.save(user);
@@ -51,8 +50,8 @@ public class UserService implements UserDetailsService {
             userId = Objects.requireNonNull(oauthPrincipal.getAttribute("login")).toString().toLowerCase();
         }else{
             User user = findByEmail(principal.getName());
-            userId = user.getFirstName();
+            userId = user.getEmail();
         }
-        return userId.substring(0,1).toUpperCase() + userId.substring(1);
+        return userId ;//userId.substring(0,1).toUpperCase() + userId.substring(1);
     }
 }

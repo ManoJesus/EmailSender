@@ -25,7 +25,9 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .csrf(
+                        c-> c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                )
                 .authorizeRequests()
                 .antMatchers("/signup").permitAll()
                 .anyRequest()
@@ -36,7 +38,7 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
                 .failureUrl("/login-failure")
                 .defaultSuccessUrl("/home", true)
                 .and()
-                .logout()
+                .logout().logoutUrl("/logout")
                 .logoutSuccessUrl("/login")
                 .and()
                 .oauth2Login()

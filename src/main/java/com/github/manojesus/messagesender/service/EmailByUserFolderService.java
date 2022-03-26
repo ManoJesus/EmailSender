@@ -39,6 +39,9 @@ public class EmailByUserFolderService {
         emailToBeSavedOnList.setKey(emailByUserFolderPrimaryKey);
         emailToBeSavedOnList.setSubject(message.getSubject());
         emailToBeSavedOnList.setTo(message.getTo());
+        if(label.equals("Sent")){
+            emailToBeSavedOnList.setRead(true);
+        }
         emailToBeSavedOnList.setRead(false);
         emailToBeSavedOnList.setEmailSentTime("");
 

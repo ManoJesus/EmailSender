@@ -11,33 +11,33 @@
 
 	<div class="container">
 	  <header>
-	    <h1 th:text="'Hello '+${userName}"></h1>
+	    <h1>Jesus Email</h1>
 	  </header>
 
 	  <nav>
 		  <div class="card"><a th:href="@{/home/compose}" class="btn btn-primary btn-lg">Compose</a></div>
-		  <div th:insert="components/folders-list :: folders-list (foldersOwner = 'Folders', folders = ${defaultFolders})"></div>
-		  <div th:insert="components/folders-list :: folders-list (foldersOwner = 'User Folders', folders = ${folders})"></div>
+		  <div th:insert="components/folders-list :: folders-list (foldersOwner = 'Folders', folders = ${T(com.github.manojesus.messagesender.util.AttributesNames).DEFAULT_FOLDERS_LIST})"></div>
+		  <div th:insert="components/folders-list :: folders-list (foldersOwner = 'User Folders', folders = ${T(com.github.manojesus.messagesender.util.AttributesNames).USER_FOLDERS_LIST})"></div>
 	  </nav>
 
 	  <main>
 	    <!-- Main content -->
-		  <div class="card">
-			  <div  class="card-header"><h4 th:text="${message.getSubject()}">Email List</h4></div>
+		  <div class="card" th:with="email = T(com.github.manojesus.messagesender.util.AttributesNames).EMAIL">
+			  <div  class="card-header"><h4 th:text="${email.getSubject()}">Email List</h4></div>
 			  <div class="card-body">
 				  <dl>
 					  <dt>From:</dt>
-					  <dd><p th:text="${message.getFrom()}"></p></dd>
+					  <dd><p th:text="${email.getFrom()}"></p></dd>
 					  <dt>Send:</dt>
-					  <dd><small th:text="${message.getSentDate()}"></small></dd>
+					  <dd><small th:text="${email.getSentDate()}"></small></dd>
 					  <dt>To:</dt>
-					  <dd><p th:text="${listTo}"></p></dd>
+					  <dd><p th:text="${T(com.github.manojesus.messagesender.util.AttributesNames).TO_LIST}"></p></dd>
 					  <dt>Message:</dt>
-					  <dd><p th:text="${message.getBody()}"></p></dd>
+					  <dd><p th:text="${email.getBody()}"></p></dd>
 				  </dl>
 				  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-					  <a th:href="@{/home/compose(to = ${message.getFrom()}, subject = ${message.getSubject()})}" class="btn btn-primary me-md-2" type="button">Reply</a>
-					  <a th:href="@{/home/compose(to = ${message.getFrom()}+','+${listTo}, subject = ${message.getSubject()})}" class="btn btn-primary" type="button">Reply All</a>
+					  <a th:href="@{/home/compose(to = ${email.getFrom()}, subject = ${email.getSubject()})}" class="btn btn-primary me-md-2" type="button">Reply</a>
+					  <a th:href="@{/home/compose(to = ${email.getFrom()}+','+${toList}, subject = ${email.getSubject()})}" class="btn btn-primary" type="button">Reply All</a>
 				  </div>
 			  </div>
 		  </div>

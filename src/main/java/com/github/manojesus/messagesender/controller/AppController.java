@@ -1,11 +1,10 @@
 package com.github.manojesus.messagesender.controller;
 
-import com.github.manojesus.messagesender.util.LoadDefaultModel;
 import com.github.manojesus.messagesender.model.EmailByUserFolder;
 import com.github.manojesus.messagesender.service.EmailByUserFolderService;
 import com.github.manojesus.messagesender.service.FolderByUserService;
 import com.github.manojesus.messagesender.service.UserService;
-import com.github.manojesus.messagesender.util.ViewNames;
+import com.github.manojesus.messagesender.util.LoadDefaultModel;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -19,16 +18,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.security.Principal;
 import java.util.List;
 
+import static com.github.manojesus.messagesender.util.AttributesNames.EMAIL_LIST;
+import static com.github.manojesus.messagesender.util.DefaultLabelNames.INBOX;
 import static com.github.manojesus.messagesender.util.UrlNames.HOME_URL;
-import static com.github.manojesus.messagesender.util.ViewNames.*;
+import static com.github.manojesus.messagesender.util.ViewNames.HOME;
 
 
 @Controller
 @AllArgsConstructor
-@RequestMapping(HOME_URL)
+@RequestMapping({HOME_URL})
 public class AppController {
 
-    private static final String DEFAULT_FOLDER = "inbox";
 
     private final FolderByUserService folderByUserService;
     private final EmailByUserFolderService emailByUserFolderService;
@@ -36,13 +36,13 @@ public class AppController {
 
     @GetMapping()
     public String homePage(@AuthenticationPrincipal OAuth2User oauthPrincipal, Principal principal, Model model){
-        loadEmailsByUserAndLabel(DEFAULT_FOLDER,oauthPrincipal,principal,model);
+        loadEmailsByUserAndLabel(INBOX,oauthPrincipal,principal,model);
         return HOME.getName();
     }
 
     @GetMapping("/{labelName}")
     public String emailsInLabel(@PathVariable String labelName,@AuthenticationPrincipal OAuth2User oauthPrincipal, Principal principal, Model model){
-        if(labelName.equals("inbox")){
+        if(labelName.equals(INBOX)){
             return "redirect:"+HOME_URL;
         }
         loadEmailsByUserAndLabel(labelName,oauthPrincipal,principal,model);
@@ -58,6 +58,6 @@ public class AppController {
         String userName = userService.getUserId(oauthPrincipal, principal);
 
         List<EmailByUserFolder> emailList = emailByUserFolderService.findAllByUserAndLabelName(userName.toLowerCase(), labelName);
-        model.addAttribute("emailList", emailList);
+        model.addAttribute(EMAIL_LIST, emailList);
     }
 }

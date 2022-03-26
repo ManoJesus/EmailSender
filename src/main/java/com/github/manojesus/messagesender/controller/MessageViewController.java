@@ -19,8 +19,9 @@ import java.security.Principal;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.github.manojesus.messagesender.util.UrlNames.HOME_URL;
-import static com.github.manojesus.messagesender.util.UrlNames.MESSAGE_VIEW_URL;
+import static com.github.manojesus.messagesender.util.AttributesNames.EMAIL;
+import static com.github.manojesus.messagesender.util.AttributesNames.TO_LIST;
+import static com.github.manojesus.messagesender.util.UrlNames.*;
 import static com.github.manojesus.messagesender.util.ViewNames.MESSAGE_VIEW;
 
 @Controller
@@ -31,7 +32,7 @@ public class MessageViewController {
     private final MessageRepository messageRepository;
     private final FolderByUserService folderByUserService;
 
-    @GetMapping(MESSAGE_VIEW_URL)
+    @GetMapping(MESSAGE_VIEW_URL_WITH_PARAMETER)
     public String messageView(Model model,
                               @PathVariable UUID messageId){
         Optional<Message> optionalMessage = messageRepository.findById(messageId);
@@ -41,8 +42,8 @@ public class MessageViewController {
         Message message = optionalMessage.get();
         String listTo = String.join(", ",message.getTo());
 
-        model.addAttribute("message", message);
-        model.addAttribute("listTo", listTo);
+        model.addAttribute(EMAIL, message);
+        model.addAttribute(TO_LIST, listTo);
 
         return MESSAGE_VIEW.getName();
     }

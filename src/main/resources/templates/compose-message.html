@@ -25,6 +25,11 @@
 			  <div  class="card-header"><h4>Compose Email</h4></div>
 			  <div class="card-body">
 					<form  method="post" th:action="@{/home/compose}" th:object="${messageForm}">
+						<input
+								type="hidden"
+								th:name="${_csrf.getParameterName()}"
+								th:value="${_csrf.getToken()}"
+						>
 						<div class="mb-3">
 							<label for="toInput" class="form-label">To: </label>
 							<input th:field="*{to}" type="text" class="form-control" id="toInput" aria-describedby="emailHelp" required/>
