@@ -1,10 +1,11 @@
 package com.github.manojesus.messagesender.controller;
 
 import com.github.manojesus.messagesender.model.MessageForm;
+import com.github.manojesus.messagesender.repository.UnreadEmailStatsRepository;
 import com.github.manojesus.messagesender.service.FolderByUserService;
 import com.github.manojesus.messagesender.service.MessageService;
 import com.github.manojesus.messagesender.service.UserService;
-import com.github.manojesus.messagesender.util.LoadDefaultModel;
+import com.github.manojesus.messagesender.util.load.LoadDefaultModel;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -17,19 +18,20 @@ import java.security.Principal;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.github.manojesus.messagesender.util.AttributesNames.MESSAGE_FORM;
-import static com.github.manojesus.messagesender.util.UrlNames.COMPOSE_URL;
-import static com.github.manojesus.messagesender.util.UrlNames.HOME_URL;
-import static com.github.manojesus.messagesender.util.ViewNames.COMPOSE_MESSAGE;
+import static com.github.manojesus.messagesender.util.constants.AttributesNames.MESSAGE_FORM;
+import static com.github.manojesus.messagesender.util.constants.UrlNames.COMPOSE_URL;
+import static com.github.manojesus.messagesender.util.constants.UrlNames.HOME_URL;
+import static com.github.manojesus.messagesender.util.constants.ViewNames.COMPOSE_MESSAGE;
 
 @Controller
 @RequestMapping(COMPOSE_URL)
 @AllArgsConstructor
 public class ComposeEmailController {
 
-    private UserService userService;
-    private FolderByUserService folderByUserService;
-    private MessageService messageService;
+    private final UserService userService;
+    private final FolderByUserService folderByUserService;
+    private final MessageService messageService;
+    private final UnreadEmailStatsRepository unreadEmailStatsRepository;
 
     @GetMapping
     public String getComposePage(@RequestParam(required = false) String to,
@@ -58,6 +60,6 @@ public class ComposeEmailController {
     @ModelAttribute
     void loadFoldersTemplate(Model model,@AuthenticationPrincipal OAuth2User oauthPrincipal, Principal principal){
         String username = userService.getUserId(oauthPrincipal,principal);
-        LoadDefaultModel.loadTemplateWithEmails(username,model,folderByUserService);
+        LoadDefaultModel.loadTemplateWithEmails(username,model,folderByUserService,unreadEmailStatsRepository);
     }
 }

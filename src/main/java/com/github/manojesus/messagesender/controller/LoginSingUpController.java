@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import static com.github.manojesus.messagesender.util.AttributesNames.LOGIN_FAIL;
-import static com.github.manojesus.messagesender.util.AttributesNames.USER_TO_REGISTER;
-import static com.github.manojesus.messagesender.util.UrlNames.*;
-import static com.github.manojesus.messagesender.util.ViewNames.INDEX;
-import static com.github.manojesus.messagesender.util.ViewNames.SIGNUP;
+import static com.github.manojesus.messagesender.util.constants.AttributesNames.LOGIN_FAIL;
+import static com.github.manojesus.messagesender.util.constants.AttributesNames.USER_TO_REGISTER;
+import static com.github.manojesus.messagesender.util.constants.UrlNames.*;
+import static com.github.manojesus.messagesender.util.constants.ViewNames.INDEX;
+import static com.github.manojesus.messagesender.util.constants.ViewNames.SIGNUP;
 
 @Controller
 @AllArgsConstructor

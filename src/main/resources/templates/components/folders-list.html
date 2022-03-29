@@ -12,7 +12,7 @@
             <div class="list-group">
                 <a th:each="folder: ${folders}" th:with="customUrl = '/home/'+ ${folder.getLabelName()}" th:href="@{${customUrl}}" class="list-group-item d-flex justify-content-between align-items-center">
                         <span th:text="${folder.getLabelName()}">label</span>
-                        <span class="badge bg-primary rounded-pill">14</span>
+                        <span class="badge bg-primary rounded-pill" th:text="${emailStatsList.get(folder.getLabelName())}">14</span>
                 </a>
             </div>
         </div>

@@ -1,4 +1,4 @@
-package com.github.manojesus.messagesender.util;
+package com.github.manojesus.messagesender.util.constants;
 
 public final class DefaultLabelNames {
 

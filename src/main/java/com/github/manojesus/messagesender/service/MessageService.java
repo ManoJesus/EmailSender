@@ -12,8 +12,8 @@ import org.springframework.util.StringUtils;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.github.manojesus.messagesender.util.DefaultLabelNames.INBOX;
-import static com.github.manojesus.messagesender.util.DefaultLabelNames.SENT;
+import static com.github.manojesus.messagesender.util.constants.DefaultLabelNames.INBOX;
+import static com.github.manojesus.messagesender.util.constants.DefaultLabelNames.SENT;
 
 @Service
 @AllArgsConstructor
@@ -41,7 +41,6 @@ public class MessageService {
 
         //Save email in the user's sent folder
         emailByUserFolderService.saveMessageInFolderList(SENT,messageToBeSaved, username);
-        unreadEmailStatusRepository.incrementCounter(username,SENT);
 
         //Save email in the users' inbox folder, for all "to" users
         for(String ToUsername : messageToBeSaved.getTo()){

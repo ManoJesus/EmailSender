@@ -1,21 +1,16 @@
 package com.github.manojesus.messagesender.service;
 
 import com.github.manojesus.messagesender.model.FolderByUser;
-import com.github.manojesus.messagesender.model.User;
 import com.github.manojesus.messagesender.repository.FolderByUserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.github.manojesus.messagesender.enums.FolderType.DEFAULT_FOLDER;
 import static com.github.manojesus.messagesender.enums.FolderType.USER_CREATED;
-import static com.github.manojesus.messagesender.util.DefaultLabelNames.*;
+import static com.github.manojesus.messagesender.util.constants.DefaultLabelNames.*;
 
 @Service
 @AllArgsConstructor

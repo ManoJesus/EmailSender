@@ -11,9 +11,9 @@ import java.util.List;
 public interface UnreadEmailStatsRepository extends CassandraRepository<UnreadEmailStats, String> {
     List<UnreadEmailStats> findAllByUserId(String userId);
 
-    @Query("update unread_email_status set unread = unread + 1 where userId = ?0 and labelName = ?1")
+    @Query("update unread_emails_stats set unread = unread + 1 where user_id = ?0 and label_name = ?1")
     void incrementCounter(String userId, String labelName);
-    @Query("update unread_email_status set unread = unread - 1 where userId = ?0 and labelName = ?1")
+    @Query("update unread_emails_stats set unread = unread - 1 where user_id = ?0 and label_name = ?1")
     void decrementCounter(String userId, String labelName);
 
 }

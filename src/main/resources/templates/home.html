@@ -16,8 +16,8 @@
 
 	  <nav>
 		  <div class="card"><a th:href="@{/home/compose}" class="btn btn-primary btn-lg">Compose</a></div>
-		  <div th:insert="components/folders-list :: folders-list (foldersOwner = 'Folders', folders = ${T(com.github.manojesus.messagesender.util.AttributesNames).DEFAULT_FOLDERS_LIST})"></div>
-		  <div th:insert="components/folders-list :: folders-list (foldersOwner = 'User Folders', folders = ${T(com.github.manojesus.messagesender.util.AttributesNames).USER_FOLDERS_LIST})"></div>
+		  <div th:insert="components/folders-list :: folders-list (foldersOwner = 'Folders', folders = ${defaultFolders})"></div>
+		  <div th:insert="components/folders-list :: folders-list (foldersOwner = 'User Folders', folders = ${userFolders})"></div>
 	  </nav>
 
 	  <main>
@@ -26,7 +26,7 @@
 			  <div  class="card-header"><h6>Email List</h6></div>
 			  <div class="card-body">
 				  <div class="list-group">
-					  <a th:each="email: ${emailList}" th:with="url = T(com.github.manojesus.messagesender.util.UrlNames).MESSAGE_VIEW_URL+${email.getKey().getMessageId()}" th:href="@{${url}}" class="list-group-item list-group-item-action">
+					  <a th:each="email: ${emailList}" th:with="url = ${T(com.github.manojesus.messagesender.util.constants.UrlNames).MESSAGE_VIEW_URL}+${email.getKey().getMessageId()}" th:href="@{${url}}" class="list-group-item list-group-item-action">
 						  <div class="d-flex w-100 justify-content-between">
 							  <h5 th:text="${email.getSubject()}" class="mb-1">List of emails in the folder</h5>
 							  <small th:text="${email.getEmailSentTime()}">email ago time</small>
