@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -46,5 +47,13 @@ public class EmailByUserFolderService {
         emailToBeSavedOnList.setEmailSentTime("");
 
         emailByUserFolderRepository.save(emailToBeSavedOnList);
+    }
+
+    public Optional<EmailByUserFolder> getById(EmailByUserFolderPrimaryKey key){
+        return emailByUserFolderRepository.findById(key);
+    }
+
+    public void saveEmailByUserFolder(EmailByUserFolder email){
+        emailByUserFolderRepository.save(email);
     }
 }

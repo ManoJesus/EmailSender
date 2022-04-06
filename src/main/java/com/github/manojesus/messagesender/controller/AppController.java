@@ -1,11 +1,9 @@
 package com.github.manojesus.messagesender.controller;
 
 import com.github.manojesus.messagesender.model.EmailByUserFolder;
-import com.github.manojesus.messagesender.repository.UnreadEmailStatsRepository;
 import com.github.manojesus.messagesender.service.EmailByUserFolderService;
-import com.github.manojesus.messagesender.service.FolderByUserService;
+import com.github.manojesus.messagesender.service.LoadDefaultModelService;
 import com.github.manojesus.messagesender.service.UserService;
-import com.github.manojesus.messagesender.util.load.LoadDefaultModel;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -31,10 +29,9 @@ import static com.github.manojesus.messagesender.util.constants.ViewNames.HOME;
 public class AppController {
 
 
-    private final FolderByUserService folderByUserService;
     private final EmailByUserFolderService emailByUserFolderService;
     private final UserService userService;
-    private final UnreadEmailStatsRepository unreadEmailStatsRepository;
+    private final LoadDefaultModelService loadDefaultModel;
 
     @GetMapping()
     public String homePage(@AuthenticationPrincipal OAuth2User oauthPrincipal, Principal principal, Model model){
@@ -50,10 +47,11 @@ public class AppController {
         loadEmailsByUserAndLabel(labelName,oauthPrincipal,principal,model);
         return HOME.getName();
     }
+
     @ModelAttribute
     void loadFoldersTemplate(Model model,@AuthenticationPrincipal OAuth2User oauthPrincipal, Principal principal){
         String username = userService.getUserId(oauthPrincipal,principal);
-        LoadDefaultModel.loadTemplateWithEmails(username,model,folderByUserService,unreadEmailStatsRepository);
+        loadDefaultModel.loadTemplateWithEmails(username,model);
     }
 
     private void loadEmailsByUserAndLabel(String labelName, OAuth2User oauthPrincipal, Principal principal, Model model) {

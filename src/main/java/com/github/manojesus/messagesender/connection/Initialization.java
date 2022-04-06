@@ -1,9 +1,12 @@
 package com.github.manojesus.messagesender.connection;
 
-import com.datastax.oss.driver.api.core.uuid.Uuids;
-import com.github.manojesus.messagesender.model.*;
-import com.github.manojesus.messagesender.model.primarykey.EmailByUserFolderPrimaryKey;
-import com.github.manojesus.messagesender.repository.*;
+import com.github.manojesus.messagesender.model.FolderByUser;
+import com.github.manojesus.messagesender.model.MessageForm;
+import com.github.manojesus.messagesender.model.User;
+import com.github.manojesus.messagesender.repository.EmailByUserFolderRepository;
+import com.github.manojesus.messagesender.repository.FolderByUserRepository;
+import com.github.manojesus.messagesender.repository.UnreadEmailStatsRepository;
+import com.github.manojesus.messagesender.repository.UserRepository;
 import com.github.manojesus.messagesender.service.FolderByUserService;
 import com.github.manojesus.messagesender.service.MessageService;
 import lombok.AllArgsConstructor;
@@ -11,12 +14,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.annotation.PostConstruct;
-
 import java.util.List;
-import java.util.UUID;
 
 import static com.github.manojesus.messagesender.enums.FolderType.USER_CREATED;
-import static com.github.manojesus.messagesender.util.constants.DefaultLabelNames.*;
+import static com.github.manojesus.messagesender.util.constants.DefaultLabelNames.IMPORTANT;
 
 @Configuration
 @AllArgsConstructor
@@ -25,12 +26,10 @@ public class Initialization {
     private static final String DEFAULT_USER = "lucas@email.com";
 
     private final FolderByUserRepository folderByUserRepository;
-    private final EmailByUserFolderRepository emailByUserFolderRepository;
     private final UserRepository userRepository;
     private final MessageService messageService;
     private final BCryptPasswordEncoder encoder;
-    private final UnreadEmailStatsRepository unreadEmailStatsRepository;
-    private FolderByUserService folderByUserService;
+    private final FolderByUserService folderByUserService;
 
     @PostConstruct
     public void init(){
@@ -40,7 +39,7 @@ public class Initialization {
         createFolders();
 
         //Creating emails for a default user and default folder
-        createEmails(INBOX);
+        //createEmails();
     }
 
     private void createFolders() {
@@ -70,7 +69,7 @@ public class Initialization {
                 .password(encoder.encode("12345")).build());
     }
 
-    private void createEmails(String labelName) {
+    private void createEmails() {
         for(int i = 0; i < 10; i++){
             String subject = "subject "+i;
 

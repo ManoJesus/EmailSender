@@ -26,7 +26,10 @@
 			  <div  class="card-header"><h6>Email List</h6></div>
 			  <div class="card-body">
 				  <div class="list-group">
-					  <a th:each="email: ${emailList}" th:with="url = ${T(com.github.manojesus.messagesender.util.constants.UrlNames).MESSAGE_VIEW_URL}+${email.getKey().getMessageId()}" th:href="@{${url}}" class="list-group-item list-group-item-action">
+					  <a th:each="email: ${emailList}"
+						 th:with="url = ${T(com.github.manojesus.messagesender.util.constants.UrlNames).MESSAGE_VIEW_URL}+${email.getKey().getMessageId()}"
+						 th:href="@{${url}(folder=${email.getKey().getLabelName()})}"
+						 class="list-group-item list-group-item-action" th:classappend="${email.isRead()} ? 'list-group-item list-group-item-light' : 'list-group-item list-group-item-dark'">
 						  <div class="d-flex w-100 justify-content-between">
 							  <h5 th:text="${email.getSubject()}" class="mb-1">List of emails in the folder</h5>
 							  <small th:text="${email.getEmailSentTime()}">email ago time</small>

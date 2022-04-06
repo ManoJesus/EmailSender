@@ -1,30 +1,28 @@
-package com.github.manojesus.messagesender.util.load;
+package com.github.manojesus.messagesender.service;
 
 import com.github.manojesus.messagesender.model.FolderByUser;
 import com.github.manojesus.messagesender.model.UnreadEmailStats;
 import com.github.manojesus.messagesender.repository.UnreadEmailStatsRepository;
-import com.github.manojesus.messagesender.service.FolderByUserService;
 import com.github.manojesus.messagesender.util.constants.AttributesNames;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.github.manojesus.messagesender.util.constants.AttributesNames.*;
 import static com.github.manojesus.messagesender.util.constants.AttributesNames.DEFAULT_FOLDERS_LIST;
+import static com.github.manojesus.messagesender.util.constants.AttributesNames.USER_FOLDERS_LIST;
+@Service
+@AllArgsConstructor
+public class LoadDefaultModelService {
 
-@Component
+    private final FolderByUserService folderByUserService;
+    private UnreadEmailStatsRepository unreadEmailStatsRepository;
 
-public final class LoadDefaultModel {
-
-    public static void loadTemplateWithEmails(String username,
-                                              Model model,
-                                              FolderByUserService folderByUserService,
-                                              UnreadEmailStatsRepository unreadEmailStatsRepository) {
+    public void loadTemplateWithEmails(String username,
+                                              Model model) {
 
         List<FolderByUser> defaultFolders = folderByUserService.findAllDefaultFolder(username);
         List<FolderByUser> userFolders = folderByUserService.findAllFolderCreatedByUsers(username);

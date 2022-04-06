@@ -3,9 +3,9 @@ package com.github.manojesus.messagesender.controller;
 import com.github.manojesus.messagesender.model.MessageForm;
 import com.github.manojesus.messagesender.repository.UnreadEmailStatsRepository;
 import com.github.manojesus.messagesender.service.FolderByUserService;
+import com.github.manojesus.messagesender.service.LoadDefaultModelService;
 import com.github.manojesus.messagesender.service.MessageService;
 import com.github.manojesus.messagesender.service.UserService;
-import com.github.manojesus.messagesender.util.load.LoadDefaultModel;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -29,9 +29,8 @@ import static com.github.manojesus.messagesender.util.constants.ViewNames.COMPOS
 public class ComposeEmailController {
 
     private final UserService userService;
-    private final FolderByUserService folderByUserService;
     private final MessageService messageService;
-    private final UnreadEmailStatsRepository unreadEmailStatsRepository;
+    private final LoadDefaultModelService loadDefaultModel;
 
     @GetMapping
     public String getComposePage(@RequestParam(required = false) String to,
@@ -60,6 +59,6 @@ public class ComposeEmailController {
     @ModelAttribute
     void loadFoldersTemplate(Model model,@AuthenticationPrincipal OAuth2User oauthPrincipal, Principal principal){
         String username = userService.getUserId(oauthPrincipal,principal);
-        LoadDefaultModel.loadTemplateWithEmails(username,model,folderByUserService,unreadEmailStatsRepository);
+        loadDefaultModel.loadTemplateWithEmails(username,model);
     }
 }
