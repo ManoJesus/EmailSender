@@ -39,6 +39,7 @@ public class MessageViewController {
     public String messageView(Model model,
                               @PathVariable UUID messageId,
                               @RequestParam String folder, Principal principal){
+        String username = principal.getName();
         Optional<Message> optionalMessage = messageRepository.findById(messageId);
         if(optionalMessage.isEmpty()){
             return "redirect:"+HOME_URL;
@@ -46,11 +47,15 @@ public class MessageViewController {
         Message message = optionalMessage.get();
         String listTo = String.join(", ",message.getTo());
 
+        if(!username.equals(message.getFrom()) && !listTo.contains(username)){
+            return "redirect:"+HOME_URL;
+        }
+
         model.addAttribute(EMAIL, message);
         model.addAttribute(TO_LIST, listTo);
 
         //Making the email as read
-        String username = principal.getName();
+
         EmailByUserFolderPrimaryKey pk = new EmailByUserFolderPrimaryKey(username,folder,message.getMessageId());
 
         Optional<EmailByUserFolder> emailByUserFolderOpt = emailByUserFolderService.getById(pk);

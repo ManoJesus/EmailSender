@@ -1,7 +1,7 @@
 package com.github.manojesus.messagesender.util.constants;
 
 public enum ViewNames {
-    HOME("home"), INDEX("index"),MESSAGE_VIEW("message-view"),SIGNUP("signup"),COMPOSE_MESSAGE("compose-message");
+    HOME("index"), LOGIN("login"),MESSAGE_VIEW("message-view"),SIGNUP("signup"),COMPOSE_MESSAGE("compose-message");
 
     private final String name;
 

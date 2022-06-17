@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import static com.github.manojesus.messagesender.util.constants.AttributesNames.LOGIN_FAIL;
 import static com.github.manojesus.messagesender.util.constants.AttributesNames.USER_TO_REGISTER;
 import static com.github.manojesus.messagesender.util.constants.UrlNames.*;
-import static com.github.manojesus.messagesender.util.constants.ViewNames.INDEX;
+import static com.github.manojesus.messagesender.util.constants.ViewNames.LOGIN;
 import static com.github.manojesus.messagesender.util.constants.ViewNames.SIGNUP;
 
 @Controller
@@ -25,12 +25,12 @@ public class LoginSingUpController {
 
     @GetMapping(LOGIN_URL)
     public String loginPage(Model model){
-        return INDEX.getName();
+        return LOGIN.getName();
     }
     @GetMapping(LOGIN_FAILURE_URL)
     public String failToLogin(Model model){
         model.addAttribute(LOGIN_FAIL, true);
-        return INDEX.getName();
+        return LOGIN.getName();
     }
     @GetMapping(SIGNUP_URL)
     public String singUpForm(Model model){

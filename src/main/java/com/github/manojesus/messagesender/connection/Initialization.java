@@ -39,7 +39,7 @@ public class Initialization {
         createFolders();
 
         //Creating emails for a default user and default folder
-        //createEmails();
+        createEmails();
     }
 
     private void createFolders() {

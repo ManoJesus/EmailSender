@@ -1,4 +1,4 @@
-package com.github.manojesus.messagesender.security.config;
+package com.github.manojesus.messagesender.config.security;
 
 import com.github.manojesus.messagesender.service.UserService;
 import lombok.AllArgsConstructor;
@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @AllArgsConstructor
@@ -31,14 +32,15 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/signup").permitAll()
                 .anyRequest()
-                .authenticated().and()
+                .fullyAuthenticated().and()
                 .formLogin()
                 .loginPage("/login")
-                .permitAll()
                 .failureUrl("/login-failure")
+                .permitAll()
                 .defaultSuccessUrl("/home", true)
                 .and()
-                .logout().logoutUrl("/logout")
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
                 .logoutSuccessUrl("/login")
                 .and()
                 .oauth2Login()

@@ -1,4 +1,4 @@
-package com.github.manojesus.messagesender.security.config;
+package com.github.manojesus.messagesender.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

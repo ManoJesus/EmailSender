@@ -10,9 +10,9 @@
 <body>
 
 	<div class="container">
-	  <header>
-	    <h1>Jesus Email</h1>
-	  </header>
+		<header>
+			<div th:insert="components/header-nav :: navbar"></div>
+		</header>
 
 	  <nav>
 		  <div class="card"><a th:href="@{/home/compose}" class="btn btn-primary btn-lg">Compose</a></div>
@@ -44,12 +44,8 @@
 
 	  </main>
 
-	  <aside>
-	    <!-- Sidebar / Ads -->
-	  </aside>
-
 	  <footer>
-	    <!-- Footer content -->
+	    Created by ManoJesus.Inc
 	  </footer>
 </div>
 

@@ -6,6 +6,7 @@ import com.github.manojesus.messagesender.model.MessageForm;
 import com.github.manojesus.messagesender.repository.MessageRepository;
 import com.github.manojesus.messagesender.repository.UnreadEmailStatsRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -17,6 +18,7 @@ import static com.github.manojesus.messagesender.util.constants.DefaultLabelName
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class MessageService {
 
 
@@ -26,6 +28,7 @@ public class MessageService {
 
 
     public void sentEmail(MessageForm messageForm, String username){
+        log.info("Saving the follow message {}", messageForm.toString());
         Message messageToBeSaved = Message.builder()
                 .messageId(Uuids.timeBased())
                 .from(username)
@@ -43,9 +46,10 @@ public class MessageService {
         emailByUserFolderService.saveMessageInFolderList(SENT,messageToBeSaved, username);
 
         //Save email in the users' inbox folder, for all "to" users
-        for(String ToUsername : messageToBeSaved.getTo()){
-            emailByUserFolderService.saveMessageInFolderList(INBOX,messageToBeSaved, ToUsername);
-            unreadEmailStatusRepository.incrementCounter(username,INBOX);
+        for(String toUsername : messageToBeSaved.getTo()){
+            log.info("Increment the unread counter from {}",toUsername);
+            emailByUserFolderService.saveMessageInFolderList(INBOX,messageToBeSaved, toUsername);
+            unreadEmailStatusRepository.incrementCounter(toUsername,INBOX);
         }
     }
 }
